@@ -2,13 +2,14 @@
   "name": "currency-table",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://yelantsevv.github.io/Currency-table/",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy": "gh-pages -d build"
+    "deploy": "npm run build && gh-pages -d dist"
   },
   "dependencies": {
     "@preact/signals-react": "^3.0.1",
