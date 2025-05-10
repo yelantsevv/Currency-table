@@ -1,4 +1,4 @@
-[Currency Arbitrage Visualizer](https://yelantsevv.github.io/Currency-table/)
+# [Currency Arbitrage Visualizer](https://yelantsevv.github.io/Currency-table/)
 
 This project utilizes live cryptocurrency trade data from Binance via WebSocke.
 
