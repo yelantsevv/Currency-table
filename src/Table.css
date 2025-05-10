@@ -29,11 +29,12 @@ td {
 
 .cell::first-letter {
   color: #01ab06;
+  font-size: 1.5rem;  
 }
 
 .cell:hover::first-letter {
   visibility: hidden;
-  margin-left: -1rem;
+  margin-left: -1.5rem;
 }
 
 .cell_from {
