@@ -17,13 +17,25 @@ table {
 th,
 td {
   font-size: 1rem;
-  padding: 2px 6px;
+  padding: 2px;
+  max-width: 100px;
+  min-width: 100px;
   border: 1px solid #ccc;
-  text-align: left;
-  max-width: 90px;
-  min-width: 90px;
   height: 40px;
-  overflow: hidden;
+  overflow-x: auto;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.cell::first-letter {
+  color: #01ab06;
+}
+
+.cell:hover::first-letter {
+  visibility: hidden;
+  margin-left: -1rem;
+}
+
+.cell_from {
+  text-align: center;
 }

@@ -1,4 +1,4 @@
-import { computed, signal } from '@preact/signals-react';
+import { computed, signal, effect } from '@preact/signals-react';
 import { webSocket } from 'rxjs/webSocket';
 
 const streamPairs = [
@@ -60,7 +60,48 @@ export const pythagorasTable = computed(() => {
   return table;
 });
 
-export const cell = (from: string, to: string) => computed(() => {
-  const rate = +pythagorasTable.value[from][to];
-  return isNaN(rate) ? '-' : rate;
-});
+
+const prevRates: Record<string, Record<string, ReturnType<typeof signal<number | null>>>> = {};
+const trendCache: Record<string, string> = {};
+
+for (const from of currencyList) {
+  prevRates[from] = {};
+  for (const to of currencyList) {
+    prevRates[from][to] = signal<number | null>(null);
+  }
+}
+
+export const cell = (from: string, to: string) => {
+  const display = signal<string>('-');
+
+  effect(() => {
+    const rateRaw = pythagorasTable.value[from][to];
+    const rate = +rateRaw;
+
+    if (isNaN(rate)) {
+      display.value = '-';
+      return;
+    }
+
+    const prevSignal = prevRates[from][to];
+    const prev = prevSignal.value as number;
+
+    if (prev === null) {
+      display.value = rate.toFixed(8);
+    } else {
+      const epsilon = 1e-8;
+      let trend = trendCache[`${from}-${to}`] || ' ⏺';
+      if (Math.abs(rate - prev) > epsilon) {
+        trend = rate > prev ? '▲' : '🔻';
+        trendCache[`${from}-${to}`] = trend;
+      }
+
+      display.value = `${trend} ${+rate}`;
+    }
+
+    prevSignal.value = rate;
+
+  });
+
+  return computed(() => display);
+};

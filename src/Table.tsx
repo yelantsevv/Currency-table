@@ -18,9 +18,9 @@ export const Table = () => {
           <tbody>
             {currencyList.map((from) => (
               <tr key={from}>
-                <td><strong>{from}</strong></td>
+                <td className='cell_from'><strong>{from}</strong></td>
                 {currencyList.map((to) => (
-                  <td key={to}>{cell(from, to)}</td>
+                  <td className="cell" key={to}>{cell(from, to)}</td>
                 ))}
               </tr>
             ))}
