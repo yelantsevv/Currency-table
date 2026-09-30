@@ -22,9 +22,19 @@ td {
   min-width: 100px;
   border: 1px solid #ccc;
   height: 40px;
-  overflow-x: auto;
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.cell {
+  position: relative;
+}
+
+.cell:hover {
+  z-index: 1;
+  overflow: visible;
+  background: #fff;
 }
 
 .cell::first-letter {

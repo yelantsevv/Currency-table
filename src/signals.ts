@@ -6,7 +6,7 @@ const streamPairs = [
   'LTCUSDT', 'BNBUSDT', 'XRPUSDT',
   'ADAUSDT', 'SOLUSDT', 'DOGEUSDT',
   'TRXUSDT', 'LINKUSDT', 'NEARUSDT',
-  'ATOMUSDT', 'FILUSDT', 'TONUSDT'
+  'ATOMUSDT', 'FILUSDT'
 ];
 
 const prices: Record<string, ReturnType<typeof signal>> = {};
@@ -71,7 +71,7 @@ for (const from of currencyList) {
   }
 }
 
-export const cell = (from: string, to: string) => {
+const createCell = (from: string, to: string) => {
   const display = signal<string>('-');
 
   effect(() => {
@@ -104,4 +104,19 @@ export const cell = (from: string, to: string) => {
   });
 
   return computed(() => display);
+};
+
+const cellCache = new Map<string, ReturnType<typeof createCell>>();
+
+export const cell = (from: string, to: string) => {
+  const key = `${from}-${to}`;
+  const cachedCell = cellCache.get(key);
+
+  if (cachedCell) {
+    return cachedCell;
+  }
+
+  const newCell = createCell(from, to);
+  cellCache.set(key, newCell);
+  return newCell;
 };
